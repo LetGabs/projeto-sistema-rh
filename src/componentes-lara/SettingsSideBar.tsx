@@ -7,7 +7,7 @@ const SettingsSidebar: React.FC = () => {
       <div>
         <div className="profile">
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcWScERFnWKv-GjBdtBHMhvaHaSzHEkUCB5edwc7BmrPLexJGxYh6OUi4KgUn-YbIpg1HW2flvRmL3aNdTJyeKwFdUbaulCAnXK-ds3vvYELjSFXf6eoTR0R_ydfPnITeIlv9elQ_FH3tUQJ-Y_z2l3K_hD1gqSS5NIhjr8cNju2pJI891fd5bfrQq0Y4hCOiFIQutpzmlA-h7Z5oN3IIU4eDdgVUdIzjga5R6u5kvP0mWeEDUpX-W18Fh0Zg0OxFJAKUZ0Czvhgk"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGQX0FMneZONJRTHEy4zgL5jE_HOVPDziVnp_-q_iVwS91Lb33GU6VfiBTj0f_Z7p0PM09sqA9SiHhbz4lJT2Oef8QpcOL-9GaO0OokO0RJCMR5tLHZ8xJb8LvjWE5xv7qMpmoZ19NhT0dQTdz18TL-cqIisNyqi9ezst9hmv1rCtjs96VNT8runIo4wRDgaW44uAdml7j1bdk-d8HS-G02wZDaEsLG3AUVm7m0rs0H476Ib_A4eZXTeb8PgQSdaf1VMGLtYb-0to"
             alt="Admin RH"
           />
           <div>

@@ -7,7 +7,7 @@ const Filters: React.FC = () => {
         {/* Seletor de data */}
         <div className="date-picker">
           <span className="material-symbols-outlined">calendar_month</span>
-          <span>01/11/2023 - 30/11/2023</span>
+          <span> 01/11/2023 - 30/11/2023 </span>
           <span className="material-symbols-outlined">expand_more</span>
         </div>
 
