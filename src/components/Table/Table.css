@@ -1,0 +1,53 @@
+.table-wrapper {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.table tr:hover td {
+  background-color: #f8fafc;
+}
+
+.status {
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.status.aprovado {
+  color: #0f5132;
+  background: #d1e7dd;
+}
+
+.status.pendente {
+  color: #664d03;
+  background: #fff3cd;
+}
+
+.status.reprovado {
+  color: #842029;
+  background: #f8d7da;
+}

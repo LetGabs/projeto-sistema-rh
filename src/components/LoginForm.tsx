@@ -1,6 +1,7 @@
 import React from 'react';
 import './LoginForm.css';
-import logo from './assets/images/rh_logo.png';
+
+
 
 const LoginForm: React.FC = () => {
     return (
@@ -14,16 +15,19 @@ const LoginForm: React.FC = () => {
                     <h1>Portal RH</h1>
                 </div>
 
+
                 <div className="login-title">
                     <h2>Acesse sua conta</h2>
                     <p>Faça login para gerenciar suas informações e ponto.</p>
                 </div>
+
 
                 <form className="login-form">
                     <label>
                         <span>E-mail ou Usuário</span>
                         <input type="text" placeholder="seuemail@empresa.com" />
                     </label>
+
 
                     <label>
                         <span>Senha</span>
@@ -32,25 +36,28 @@ const LoginForm: React.FC = () => {
                         </div>
                     </label>
 
+
                     <a href="#" className="forgot-password">Esqueceu sua senha?</a>
+
 
                     <button type="submit">Entrar</button>
                 </form>
+
 
                 <footer>
                     © 2024 Nome da Empresa. Todos os direitos reservados.
                 </footer>
             </div>
 
+
             <div className="login-background" />
 
-            <div className="login-header">
-                <img src={logo} alt="Logo da empresa" className="login-logo" />
-                <h1>Portal RH</h1>
-            </div>
+
+
 
         </div>
     );
 };
+
 
 export default LoginForm;
