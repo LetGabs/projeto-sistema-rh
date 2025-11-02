@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Sidebar: React.FC = () => {
+interface Props {
+  onAjudaClick?: () => void
+}
+
+const Sidebar: React.FC<Props> = ({ onAjudaClick }) => {
   return (
     <aside className="sidebar">
       <div>
@@ -40,23 +44,16 @@ const Sidebar: React.FC = () => {
         </nav>
       </div>
 
-      <aside className="sidebar">
-        <div>
-          {/* perfil + navegação principal */}
-        </div>
-
-        <div className="sidebar-footer">
-          <Link to="#" className="nav-link-ajuda">
-            <span className="material-symbols-outlined">help</span>
-            Ajuda
-          </Link>
-          <button className="exit-button">
-            <span className='material-symbols-outlined'>logout</span>
-            Sair
-          </button>
-        </div>
-      </aside>
-
+      <div className="sidebar-footer">
+        <button className="nav-link-ajuda" onClick={onAjudaClick}>
+          <span className="material-symbols-outlined">help</span>
+          Ajuda
+        </button>
+        <button className="exit-button">
+          <span className="material-symbols-outlined">logout</span>
+          Sair
+        </button>
+      </div>
     </aside>
   )
 }

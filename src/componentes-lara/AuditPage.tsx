@@ -5,6 +5,7 @@ import Header from './Header'
 import Filters from './Filters'
 import InconsistenciesTable from './InconsistenciesTable'
 import DetailsPanel from './DetailsPanel'
+import AjudaModal from './AjudaModal'
 
 export interface Funcionario {
   nome: string
@@ -16,19 +17,23 @@ export interface Funcionario {
   foto: string
 }
 
-
 const AuditPage: React.FC = () => {
   const [selecionado, setSelecionado] = useState<Funcionario | null>(null)
+  const [mostrarAjuda, setMostrarAjuda] = useState(false)
 
   return (
-    <PageLayout sidebar={<Sidebar />}>
-      <Header />
-      <Filters />
-      <div className="audit-content">
-        <InconsistenciesTable onSelect={setSelecionado} />
-        {selecionado && <DetailsPanel funcionario={selecionado} />}
-      </div>
-    </PageLayout>
+    <>
+      <PageLayout sidebar={<Sidebar onAjudaClick={() => setMostrarAjuda(true)} />}>
+        <Header />
+        <Filters />
+        <div className="audit-content">
+          <InconsistenciesTable onSelect={setSelecionado} />
+          {selecionado && <DetailsPanel funcionario={selecionado} />}
+        </div>
+      </PageLayout>
+
+      {mostrarAjuda && <AjudaModal onClose={() => setMostrarAjuda(false)} />}
+    </>
   )
 }
 
