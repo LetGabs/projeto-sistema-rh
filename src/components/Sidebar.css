@@ -1,19 +1,15 @@
-/* Fontes - IMPORTEM PARA TER OS ICONS */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
-
-/* Sidebar */
 .sidebar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.50rem;
+  padding: 0.5rem;
   background-color: #fff;
   border-right: 1px solid #ddd;
+  min-height: 100vh;
+  width: 16rem;
 }
 
-
-.sidebar .profile {
+.profile {
   padding: 1rem;
   border-bottom: 1px solid #ddd;
   display: flex;
@@ -21,36 +17,14 @@
   align-items: center;
 }
 
-.sidebar-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: auto; 
-}
-
-.profile h1 {
-  margin: 0;
-}
-
-.profile p {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #4c739a;
-}
-
-.sidebar .profile img {
+.profile img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.sidebar nav {
-  flex-grow: 1;
-  padding: 1rem;
-}
-
-.sidebar nav a {
+.nav-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -60,31 +34,25 @@
   color: #333;
 }
 
-.sidebar nav a.active {
+.nav-link.active {
   background-color: rgba(17, 115, 212, 0.2);
-  color: var(--primary);
+  color: #1173d4;
 }
 
-.nav-link-ajuda {
+.sidebar-footer {
   display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 0.3rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
 }
 
-.sidebar-footer button {
+.exit-button {
   background: none;
   border: none;
   color: #d32f2f;
   cursor: pointer;
-  text-align: left;
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  text-decoration: none;
   font-weight: 500;
-  font-size: medium;
-  margin-left: 0.1rem;
 }

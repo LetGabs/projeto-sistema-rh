@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './Sidebar.css'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "./Sidebar.css";
 
 const Sidebar: React.FC = () => {
   return (
@@ -18,48 +18,41 @@ const Sidebar: React.FC = () => {
         </div>
 
         <nav>
-          <Link to="#" className="nav-link">
+          <NavLink to="/colaboradores" className="nav-link">
             <span className="material-symbols-outlined">groups</span>
             Colaboradores
-          </Link>
-          <Link to="#" className="nav-link">
+          </NavLink>
+          <NavLink to="/controle-ponto" className="nav-link">
             <span className="material-symbols-outlined">check_in_out</span>
             Registro de Ponto
-          </Link>
-          <Link to="/" className="nav-link active">
+          </NavLink>
+          <NavLink to="/auditoria" className="nav-link">
             <span className="material-symbols-outlined">history</span>
             Auditoria de Ponto
-          </Link>
-          <Link to="#" className="nav-link">
+          </NavLink>
+          <NavLink to="/relatorios" className="nav-link">
             <span className="material-symbols-outlined">bar_chart</span>
-            Relatórios de Ponto
-          </Link>
-          <Link to="/configuracoes" className="nav-link">
+            Relatórios
+          </NavLink>
+          <NavLink to="/configuracoes" className="nav-link">
             <span className="material-symbols-outlined">tune</span>
             Configurações
-          </Link>
+          </NavLink>
         </nav>
       </div>
 
-      <aside className="sidebar">
-        <div>
-          {/* perfil + navegação principal */}
-        </div>
-
-        <div className="sidebar-footer">
-          <Link to="#" className="nav-link-ajuda">
-            <span className="material-symbols-outlined">help</span>
-            Ajuda
-          </Link>
-          <button className="exit-button">
-            <span className='material-symbols-outlined'>logout</span>
-            Sair
-          </button>
-        </div>
-      </aside>
-
+      <div className="sidebar-footer">
+        <NavLink to="/ajuda" className="nav-link-ajuda">
+          <span className="material-symbols-outlined">help</span>
+          Ajuda
+        </NavLink>
+        <button className="exit-button">
+          <span className="material-symbols-outlined">logout</span>
+          Sair
+        </button>
+      </div>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
