@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import AuditPage from './componentes-lara/AuditPage'
-import SettingsPage from './componentes-lara/SettingsPage'
+import AuditPage from './componentes-lara/Página-Geral/AuditPage'
+import SettingsPage from './componentes-lara/Configurações/SettingsPage'
 
 const App: React.FC = () => {
   return (

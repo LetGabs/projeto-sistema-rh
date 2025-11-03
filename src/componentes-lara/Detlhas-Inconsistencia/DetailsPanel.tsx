@@ -1,5 +1,5 @@
 import React from "react";
-import type { Funcionario } from "./AuditPage";
+import type { Funcionario } from "../Página-Geral/AuditPage";
 
 interface Props {
   funcionario: Funcionario;
@@ -11,7 +11,9 @@ const DetailsPanel: React.FC<Props> = ({ funcionario, onClose }) => {
     <aside className="details-panel">
       <div className="panel-header">
         <h3>Detalhes da Ocorrência</h3>
-        <button className="fechar-btn" onClick={onClose}>✕</button>
+        <button className="fechar-btn" onClick={onClose}>
+          ✕
+        </button>
       </div>
 
       <div className="detalhes-container">
