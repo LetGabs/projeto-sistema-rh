@@ -1,0 +1,31 @@
+.reports-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f6f7f8;
+  color: #0d141b;
+  font-family: "Inter", sans-serif;
+}
+
+.reports-main {
+  flex: 1;
+  padding: 2rem 3rem;
+  background-color: #f6f7f8;
+}
+
+.reports-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reports-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  color: #0d141b;
+}
+
+.reports-header p {
+  color: #5f6b7a;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
