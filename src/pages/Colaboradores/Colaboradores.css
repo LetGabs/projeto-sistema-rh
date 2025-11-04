@@ -1,23 +1,46 @@
+/* 🔧 Corrige overflow geral */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* impede scroll lateral */
+  box-sizing: border-box;
+}
+
+/* 🧩 Estrutura principal (Sidebar + Conteúdo) */
+.page-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: #f6f7f8;
+  overflow-x: hidden;
+}
+
+/* 🔹 Conteúdo principal */
 .main-content {
   flex: 1;
-  width: 100%;
   height: 100vh;
   padding: 2rem;
   background-color: #f6f7f8;
   overflow-y: auto;
+  overflow-x: hidden; /* evita scroll lateral interno */
+  box-sizing: border-box;
 }
 
+/* 🔸 Card principal (bloco de gestão) */
 .gestao-card {
   width: 100%;
   min-height: calc(100vh - 4rem);
   background: #ffffff;
   border-radius: 0.75rem;
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
-
-/* Cabeçalho */
+/* 🧭 Cabeçalho da página */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -39,12 +62,13 @@
   margin: 0.25rem 0 0;
 }
 
+/* 🔵 Botão principal */
 .add-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: #1a73e8;  /* Cor azul do Google Material Design */
+  background-color: #1a73e8; /* azul material design */
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -54,7 +78,7 @@
 }
 
 .add-button:hover {
-  background-color: #1557b0;  /* Um tom mais escuro para hover */
+  background-color: #1557b0; /* hover mais escuro */
 }
 
 .add-button span {
@@ -62,8 +86,7 @@
   align-items: center;
 }
 
-
-/* Barra de pesquisa */
+/* 🔍 Barra de pesquisa */
 .search-bar {
   position: relative;
   width: 100%;
@@ -80,6 +103,7 @@
   font-size: 1rem;
   color: #1e293b;
   background-color: #ffffff;
+  box-sizing: border-box;
 }
 
 .search-bar input:focus {
@@ -95,11 +119,13 @@
   transform: translateY(-50%);
   color: #64748b;
 }
-/* Filtros */
+
+/* 🎛️ Filtros */
 .filters {
   display: flex;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* evita quebra de layout em telas menores */
 }
 
 .filter-button {
@@ -116,6 +142,7 @@
   color: #334155;
   cursor: pointer;
   transition: background 0.2s;
+  box-sizing: border-box;
 }
 
 .filter-button:hover {
@@ -124,4 +151,56 @@
 
 .filter-button p {
   margin: 0;
+}
+
+/* 🪟 Modal (garantia de centralização e responsividade) */
+.modal {
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.form-colaborador {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #1173d4;
+  box-shadow: 0 0 0 2px rgba(17, 115, 212, 0.3);
+}
+
+/* 📱 Responsividade */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
 }

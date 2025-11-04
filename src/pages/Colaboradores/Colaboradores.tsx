@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Colaboradores.css";
+import Sidebar from "../../components/Sidebar/Sidebar"; // <── importa aqui
 import ColaboradoresTable from "../../components/ColaboradoresTable/ColaboradoresTable";
 import type { Colaborador } from "../../components/ColaboradoresTable/ColaboradoresTable";
 import Pagination from "../../components/Pagination/Pagination";
@@ -10,41 +11,11 @@ const Colaboradores: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [colaboradores, setColaboradores] = useState<Colaborador[]>([
-    {
-      id: 1,
-      nome: "Ana Silva",
-      cargo: "Designer de Produto",
-      departamento: "Tecnologia",
-      status: "Ativo",
-    },
-    {
-      id: 2,
-      nome: "Bruno Costa",
-      cargo: "Engenheiro de Software",
-      departamento: "Tecnologia",
-      status: "Ativo",
-    },
-    {
-      id: 3,
-      nome: "Carla Dias",
-      cargo: "Analista de RH",
-      departamento: "Recursos Humanos",
-      status: "Inativo",
-    },
-    {
-      id: 4,
-      nome: "Daniel Martins",
-      cargo: "Gerente de Marketing",
-      departamento: "Marketing",
-      status: "Ativo",
-    },
-    {
-      id: 5,
-      nome: "Eduarda Lima",
-      cargo: "Analista Financeiro",
-      departamento: "Financeiro",
-      status: "Férias",
-    },
+    { id: 1, nome: "Ana Silva", cargo: "Designer de Produto", departamento: "Tecnologia", status: "Ativo" },
+    { id: 2, nome: "Bruno Costa", cargo: "Engenheiro de Software", departamento: "Tecnologia", status: "Ativo" },
+    { id: 3, nome: "Carla Dias", cargo: "Analista de RH", departamento: "Recursos Humanos", status: "Inativo" },
+    { id: 4, nome: "Daniel Martins", cargo: "Gerente de Marketing", departamento: "Marketing", status: "Ativo" },
+    { id: 5, nome: "Eduarda Lima", cargo: "Analista Financeiro", departamento: "Financeiro", status: "Férias" },
   ]);
 
   const itemsPerPage = 3;
@@ -59,7 +30,6 @@ const Colaboradores: React.FC = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginated = filtered.slice(startIndex, startIndex + itemsPerPage);
 
-  // Função para adicionar colaborador
   const handleAddColaborador = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -79,99 +49,90 @@ const Colaboradores: React.FC = () => {
   };
 
   return (
-    <main className="main-content">
-      <div className="gestao-card">
-        {/* Cabeçalho */}
-        <div className="page-header">
-          <div className="page-title">
-            <h1>Gestão de Colaboradores</h1>
-            <p>Adicione, edite e visualize os registros dos colaboradores.</p>
-          </div>
-          <button className="add-button" onClick={() => setIsModalOpen(true)}>
-            <span className="material-symbols-outlined">add</span>
-            <span>Adicionar Colaborador</span>
-          </button>
-        </div>
+    <div style={{ display: "flex" }}>
+      {/* Sidebar fixa */}
+      <Sidebar />
 
-        {/* Barra de pesquisa */}
-        <div className="search-bar">
-          <span className="material-symbols-outlined search-icon">search</span>
-          <input
-            type="text"
-            placeholder="Pesquisar por nome ou ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+      {/* Conteúdo principal */}
+      <main className="main-content">
+        <div className="gestao-card">
+          {/* Cabeçalho */}
+          <div className="page-header">
+            <div className="page-title">
+              <h1>Gestão de Colaboradores</h1>
+              <p>Adicione, edite e visualize os registros dos colaboradores.</p>
+            </div>
+            <button className="add-button" onClick={() => setIsModalOpen(true)}>
+              <span className="material-symbols-outlined">add</span>
+              <span>Adicionar Colaborador</span>
+            </button>
+          </div>
+
+          {/* Barra de pesquisa */}
+          <div className="search-bar">
+            <span className="material-symbols-outlined search-icon">search</span>
+            <input
+              type="text"
+              placeholder="Pesquisar por nome ou ID..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
+          {/* Filtros */}
+          <div className="filters">
+            <button className="filter-button">
+              <p>Departamento</p>
+              <span className="material-symbols-outlined">expand_more</span>
+            </button>
+            <button className="filter-button">
+              <p>Status</p>
+              <span className="material-symbols-outlined">expand_more</span>
+            </button>
+          </div>
+
+          {/* Tabela */}
+          <ColaboradoresTable colaboradores={paginated} />
+
+          {/* Paginação */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
           />
         </div>
 
-        {/* Filtros */}
-        <div className="filters">
-          <button className="filter-button">
-            <p>Departamento</p>
-            <span className="material-symbols-outlined">expand_more</span>
-          </button>
-          <button className="filter-button">
-            <p>Status</p>
-            <span className="material-symbols-outlined">expand_more</span>
-          </button>
-        </div>
-
-        {/* Tabela */}
-        <ColaboradoresTable colaboradores={paginated} />
-
-        {/* Paginação */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      </div>
-
-      {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h2>Adicionar Colaborador</h2>
-        <form className="form-colaborador" onSubmit={handleAddColaborador}>
-          <div className="form-group">
-            <label>Nome</label>
-            <input
-              type="text"
-              name="nome"
-              required
-              placeholder="Digite o nome"
-            />
-          </div>
-          <div className="form-group">
-            <label>Cargo</label>
-            <input
-              type="text"
-              name="cargo"
-              required
-              placeholder="Digite o cargo"
-            />
-          </div>
-          <div className="form-group">
-            <label>Departamento</label>
-            <input
-              type="text"
-              name="departamento"
-              required
-              placeholder="Digite o departamento"
-            />
-          </div>
-          <div className="form-group">
-            <label>Status</label>
-            <select name="status" required>
-              <option value="Ativo">Ativo</option>
-              <option value="Inativo">Inativo</option>
-              <option value="Férias">Férias</option>
-            </select>
-          </div>
-          <button type="submit" className="add-button">
-            Salvar
-          </button>
-        </form>
-      </Modal>
-    </main>
+        {/* Modal */}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2>Adicionar Colaborador</h2>
+          <form className="form-colaborador" onSubmit={handleAddColaborador}>
+            <div className="form-group">
+              <label>Nome</label>
+              <input type="text" name="nome" required placeholder="Digite o nome" />
+            </div>
+            <div className="form-group">
+              <label>Cargo</label>
+              <input type="text" name="cargo" required placeholder="Digite o cargo" />
+            </div>
+            <div className="form-group">
+              <label>Departamento</label>
+              <input type="text" name="departamento" required placeholder="Digite o departamento" />
+            </div>
+            <div className="form-group">
+              <label>Status</label>
+              <select name="status" required>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+                <option value="Férias">Férias</option>
+              </select>
+            </div>
+            <button type="submit" className="add-button">
+              Salvar
+            </button>
+          </form>
+        </Modal>
+      </main>
+    </div>
   );
 };
 

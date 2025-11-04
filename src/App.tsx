@@ -6,7 +6,8 @@ import Reports from "./pages/Reports/Reports";
 import AuditPage from "./components/Página-Geral/AuditPage";
 import SettingsPage from "./components/Configurações/SettingsPage";
 import Colaboradores from "./pages/Colaboradores/Colaboradores";
-import "./style/estilo.css";
+import "./index.css";
+
 
 const App: React.FC = () => {
   return (
