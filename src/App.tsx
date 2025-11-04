@@ -1,5 +1,6 @@
+// src/App.tsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Reports from "./pages/Reports/Reports";
 import AuditPage from "./components/Página-Geral/AuditPage";
@@ -9,15 +10,13 @@ import "./style/estilo.css";
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/colaboradores" element={<Colaboradores />} />
-        <Route path="/relatorios" element={<Reports />} />
-        <Route path="/auditoria" element={<AuditPage />} />
-        <Route path="/configuracoes" element={<SettingsPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/colaboradores" element={<Colaboradores />} />
+      <Route path="/relatorios" element={<Reports />} />
+      <Route path="/auditoria" element={<AuditPage />} />
+      <Route path="/configuracoes" element={<SettingsPage />} />
+    </Routes>
   );
 };
 
