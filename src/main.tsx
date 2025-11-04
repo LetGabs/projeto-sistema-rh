@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -15,3 +16,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 
 
+=======
+>>>>>>> 5bc3cfb00f13230d406d1c57ebba92ecbf6c3d1d

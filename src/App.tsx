@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
@@ -18,3 +19,5 @@ const App: React.FC = () => {
 };
 
 export default App;
+=======
+>>>>>>> 5bc3cfb00f13230d406d1c57ebba92ecbf6c3d1d

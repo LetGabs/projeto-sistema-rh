@@ -1,0 +1,43 @@
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-title h1 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  color: #1e293b; /* text-gray-900 */
+  margin: 0;
+}
+
+.page-title p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #64748b; /* text-gray-500 */
+  margin: 0.25rem 0 0;
+}
+
+.export-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 40px;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  background-color: #1173d4; /* primary */
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: none;
+}
+
+.export-button:hover {
+  background-color: #0e5fb0; /* hover */
+}

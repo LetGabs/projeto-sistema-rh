@@ -1,0 +1,43 @@
+.recognition-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.recognition-card h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.recognition-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recognition-card li {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background-size: cover;
+  background-position: center;
+}
+
+.name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.time {
+  font-size: 0.75rem;
+  color: #64748b;
+}
