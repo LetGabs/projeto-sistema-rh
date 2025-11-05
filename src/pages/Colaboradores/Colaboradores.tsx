@@ -1,22 +1,29 @@
 import React, { useState } from "react";
 import "./Colaboradores.css";
-import Sidebar from "../../components/Sidebar/Sidebar"; // <── importa aqui
+import Sidebar from "../../components/Sidebar/Sidebar";
 import ColaboradoresTable from "../../components/ColaboradoresTable/ColaboradoresTable";
 import type { Colaborador } from "../../components/ColaboradoresTable/ColaboradoresTable";
 import Pagination from "../../components/Pagination/Pagination";
 import Modal from "../../components/ModalColaborador/Modal";
 
+// ✅ Lista inicial de colaboradores (fora do componente)
+const colaboradoresIniciais: Colaborador[] = [
+  { id: 1, nome: "Ana Silva", cargo: "Designer de Produto", departamento: "Tecnologia", status: "Ativo" },
+  { id: 2, nome: "Bruno Costa", cargo: "Engenheiro de Software", departamento: "Tecnologia", status: "Ativo" },
+  { id: 3, nome: "Carla Dias", cargo: "Analista de RH", departamento: "Recursos Humanos", status: "Inativo" },
+  { id: 4, nome: "Daniel Martins", cargo: "Gerente de Marketing", departamento: "Marketing", status: "Ativo" },
+  { id: 5, nome: "Eduarda Lima", cargo: "Analista Financeiro", departamento: "Financeiro", status: "Férias" },
+];
+
 const Colaboradores: React.FC = () => {
+  // 🔹 Estados principais
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [colaboradores, setColaboradores] = useState<Colaborador[]>([
-    { id: 1, nome: "Ana Silva", cargo: "Designer de Produto", departamento: "Tecnologia", status: "Ativo" },
-    { id: 2, nome: "Bruno Costa", cargo: "Engenheiro de Software", departamento: "Tecnologia", status: "Ativo" },
-    { id: 3, nome: "Carla Dias", cargo: "Analista de RH", departamento: "Recursos Humanos", status: "Inativo" },
-    { id: 4, nome: "Daniel Martins", cargo: "Gerente de Marketing", departamento: "Marketing", status: "Ativo" },
-    { id: 5, nome: "Eduarda Lima", cargo: "Analista Financeiro", departamento: "Financeiro", status: "Férias" },
-  ]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [colaboradorEditando, setColaboradorEditando] = useState<Colaborador | null>(null);
+
+  const [colaboradores, setColaboradores] = useState<Colaborador[]>(colaboradoresIniciais);
 
   const itemsPerPage = 3;
 
@@ -26,9 +33,11 @@ const Colaboradores: React.FC = () => {
       c.id.toString().includes(search)
   );
 
+
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginated = filtered.slice(startIndex, startIndex + itemsPerPage);
+
 
   const handleAddColaborador = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,12 +57,31 @@ const Colaboradores: React.FC = () => {
     form.reset();
   };
 
+  const abrirEdicao = (colab: Colaborador) => {
+    setColaboradorEditando(colab);
+    setIsEditModalOpen(true);
+  };
+
+  // 💾 Salvar edição
+  const salvarEdicao = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!colaboradorEditando) return;
+
+    setColaboradores((prev) =>
+      prev.map((c) => (c.id === colaboradorEditando.id ? colaboradorEditando : c))
+    );
+    setIsEditModalOpen(false);
+  };
+
+
+  const removerColaborador = (id: number) => {
+    setColaboradores((prev) => prev.filter((c) => c.id !== id));
+  };
+
   return (
     <div style={{ display: "flex" }}>
-      {/* Sidebar fixa */}
       <Sidebar />
 
-      {/* Conteúdo principal */}
       <main className="main-content">
         <div className="gestao-card">
           {/* Cabeçalho */}
@@ -79,7 +107,7 @@ const Colaboradores: React.FC = () => {
             />
           </div>
 
-          {/* Filtros */}
+          {/* Filtros (ainda estáticos) */}
           <div className="filters">
             <button className="filter-button">
               <p>Departamento</p>
@@ -91,8 +119,12 @@ const Colaboradores: React.FC = () => {
             </button>
           </div>
 
-          {/* Tabela */}
-          <ColaboradoresTable colaboradores={paginated} />
+          {/* Tabela de colaboradores */}
+          <ColaboradoresTable
+            colaboradores={paginated}
+            onAtualizar={abrirEdicao}
+            onRemover={removerColaborador}
+          />
 
           {/* Paginação */}
           <Pagination
@@ -102,21 +134,21 @@ const Colaboradores: React.FC = () => {
           />
         </div>
 
-        {/* Modal */}
+        {/* Modal de cadastro */}
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <h2>Adicionar Colaborador</h2>
           <form className="form-colaborador" onSubmit={handleAddColaborador}>
             <div className="form-group">
               <label>Nome</label>
-              <input type="text" name="nome" required placeholder="Digite o nome" />
+              <input type="text" name="nome" required />
             </div>
             <div className="form-group">
               <label>Cargo</label>
-              <input type="text" name="cargo" required placeholder="Digite o cargo" />
+              <input type="text" name="cargo" required />
             </div>
             <div className="form-group">
               <label>Departamento</label>
-              <input type="text" name="departamento" required placeholder="Digite o departamento" />
+              <input type="text" name="departamento" required />
             </div>
             <div className="form-group">
               <label>Status</label>
@@ -126,9 +158,61 @@ const Colaboradores: React.FC = () => {
                 <option value="Férias">Férias</option>
               </select>
             </div>
-            <button type="submit" className="add-button">
-              Salvar
-            </button>
+            <button type="submit" className="add-button">Salvar</button>
+          </form>
+        </Modal>
+
+        {/* Modal de edição */}
+        <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+          <h2>Editar Colaborador</h2>
+          <form className="form-colaborador" onSubmit={salvarEdicao}>
+            <div className="form-group">
+              <label>Nome</label>
+              <input
+                type="text"
+                value={colaboradorEditando?.nome || ""}
+                onChange={(e) =>
+                  setColaboradorEditando({ ...colaboradorEditando!, nome: e.target.value })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Cargo</label>
+              <input
+                type="text"
+                value={colaboradorEditando?.cargo || ""}
+                onChange={(e) =>
+                  setColaboradorEditando({ ...colaboradorEditando!, cargo: e.target.value })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Departamento</label>
+              <input
+                type="text"
+                value={colaboradorEditando?.departamento || ""}
+                onChange={(e) =>
+                  setColaboradorEditando({ ...colaboradorEditando!, departamento: e.target.value })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Status</label>
+              <select
+                value={colaboradorEditando?.status || "Ativo"}
+                onChange={(e) =>
+                  setColaboradorEditando({
+                    ...colaboradorEditando!,
+                    status: e.target.value as Colaborador["status"],
+                  })
+                }
+              >
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+                <option value="Férias">Férias</option>
+              </select>
+            </div>
+            <button type="submit" className="add-button">Salvar</button>
           </form>
         </Modal>
       </main>

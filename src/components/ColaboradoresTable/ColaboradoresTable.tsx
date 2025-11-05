@@ -11,9 +11,15 @@ export interface Colaborador {
 
 interface Props {
   colaboradores: Colaborador[];
+  onAtualizar: (colaborador: Colaborador) => void;
+  onRemover: (id: number) => void;
 }
 
-const ColaboradoresTable: React.FC<Props> = ({ colaboradores }) => {
+const ColaboradoresTable: React.FC<Props> = ({
+  colaboradores,
+  onAtualizar,
+  onRemover,
+}) => {
   return (
     <div className="table-container">
       <table className="table">
@@ -38,9 +44,20 @@ const ColaboradoresTable: React.FC<Props> = ({ colaboradores }) => {
                 </span>
               </td>
               <td>
-                <button className="action-button">
-                  <span className="material-symbols-outlined">more_vert</span>
-                </button>
+                <div className="action-buttons">
+                  <button
+                    className="btn-editar"
+                    onClick={() => onAtualizar(colab)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="btn-remover"
+                    onClick={() => onRemover(colab.id)}
+                  >
+                    Remover
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

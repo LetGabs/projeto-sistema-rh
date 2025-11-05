@@ -1,5 +1,5 @@
 .table-container {
-  margin-top: 1rem;              /* Menos espaçamento para encaixar no card */
+  margin-top: 1rem;
   overflow-x: auto;
   border-radius: 0.5rem;
   border: 1px solid #e2e8f0;
@@ -11,7 +11,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;              /* Evita quebrar colunas em telas menores */
+  min-width: 700px;
 }
 
 .table thead {
@@ -65,18 +65,39 @@
   color: #854d0e;
 }
 
-/* Botão de ação */
-.action-button {
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 50%;
-  color: #64748b;
-  transition: background 0.2s;
+/* Botões de ação */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.action-button:hover {
-  background-color: #f1f5f9;
-  color: #1e293b;
+.btn-editar,
+.btn-remover {
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Botão Editar */
+.btn-editar {
+  background-color: #dbeafe; /* Azul suave */
+  color: #1d4ed8;
+}
+
+.btn-editar:hover {
+  background-color: #bfdbfe;
+}
+
+/* Botão Remover */
+.btn-remover {
+  background-color: #fee2e2; /* Vermelho suave */
+  color: #b91c1c;
+}
+
+.btn-remover:hover {
+  background-color: #fecaca;
 }
