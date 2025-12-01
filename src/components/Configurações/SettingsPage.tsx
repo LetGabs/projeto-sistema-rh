@@ -3,7 +3,6 @@ import PageLayout from "../Página-Geral/PageLayout";
 import SettingsSidebar from "../Sidebar/Sidebar";
 import SettingsHeader from "../Configurações/SettingsHeader";
 import SettingsSection from "./SettingsSection";
-
 import "./Settings.css";
 
 const SettingsPage: React.FC = () => {
@@ -36,6 +35,8 @@ const SettingsPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // 👉 Salvar URL no localStorage para Sidebar usar
+        localStorage.setItem("foto_perfil", data.foto_url);
         alert("Foto atualizada com sucesso!");
       } else {
         alert("Erro ao salvar foto: " + data.error);
@@ -61,7 +62,11 @@ const SettingsPage: React.FC = () => {
               {/* Preview da foto */}
               <div className="profile-photo-preview">
                 <img
-                  src={selectedImage || "/default-profile.png"}
+                  src={
+                    selectedImage ||
+                    localStorage.getItem("foto_perfil") ||
+                    "/default-profile.png"
+                  }
                   alt="Foto de Perfil"
                 />
               </div>
@@ -107,13 +112,13 @@ const SettingsPage: React.FC = () => {
               <label className="switch">
                 <input
                   type="checkbox"
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    alert("Notificações ativadas!");
-                  } else {
-                    alert("Notificações desativadas!");
-                  }
-                }}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      alert("Notificações ativadas!");
+                    } else {
+                      alert("Notificações desativadas!");
+                    }
+                  }}
                 />
                 <span className="slider" /> Ative para receber notificações
               </label>

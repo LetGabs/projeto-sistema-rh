@@ -1,14 +1,7 @@
-const API_URL = 'http://localhost:3000';
+import axios from 'axios';
 
-export async function atualizarFoto(formData: FormData) {
-    const response = await fetch(`${API_URL}/configuracoes/upload-foto`, {
-        method: 'POST',
-        body: formData
-    });
+const api = axios.create({
+    baseURL: 'http://localhost:3000'
+})
 
-    if (!response.ok) {
-        throw new Error('Erro ao enviar foto');
-    }
-
-    return await response.json();
-}
+export default api;
