@@ -3,6 +3,8 @@ import "./ColaboradoresTable.css";
 export interface Colaborador {
   id: number;
   nome: string;
+  cargo_id: number;
+  departamento_id: number;
   cargo: string;
   departamento: string;
   status: "Ativo" | "Inativo" | "Férias";
@@ -36,8 +38,8 @@ const ColaboradoresTable: React.FC<Props> = ({
           {colaboradores.map((colab) => (
             <tr key={colab.id}>
               <td>{colab.nome}</td>
-              <td>{colab.cargo}</td>
-              <td>{colab.departamento}</td>
+              <td>{colab.cargo_id }</td>
+              <td>{colab.departamento_id}</td>
               <td>
                 <span className={`status ${colab.status.toLowerCase()}`}>
                   {colab.status}

@@ -4,9 +4,12 @@ export interface ColaboradorData {
   id?: number; // importante para quando vier do backend
   nome: string;
   cargo_id: number;
+  cargo ?: string;
+  departamento ?: string;
   departamento_id: number;
   status: string;
 }
+
 
 const colaboradoresRequests = {
   async getAll(): Promise<ColaboradorData[]> {
@@ -29,5 +32,7 @@ const colaboradoresRequests = {
     return response.data;
   },
 };
+
+
 
 export default colaboradoresRequests;

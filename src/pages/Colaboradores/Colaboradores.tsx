@@ -186,9 +186,9 @@ function Colaboradores() {
                 defaultValue={editando?.cargo_id || ""}
               >
                 <option value="">Selecione...</option>
-                <option value="1">Designer de Produto</option>
-                <option value="2">Engenheiro de Software</option>
-                <option value="3">Aanlista de RH</option>
+                <option value="Designer de Produto">Designer de Produto</option>
+                <option value="Engenheiro de Software">Engenheiro de Software</option>
+                <option value="Aanlista de RH">Aanlista de RH</option>
                 
             
                 {cargos.map((c) => (
@@ -210,7 +210,9 @@ function Colaboradores() {
                 <option value="1">Tecnologia</option>
                 <option value="2">Recursos Humanos</option>
                 {departamentos.map((d) => (
-                  <option key={d.id} value={d.id}>
+                  <option key={d.id} value={d.id
+
+                  }>
                     {d.nome}
                   </option>
                 ))}
