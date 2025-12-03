@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import api from "../../services/api"; // certifique-se que está importando corretamente
+import api from "../../services/api"; 
 import "./Sidebar.css";
 import AjudaModal from "./AjudaModal";
 import SairModal from "./SairModal";
