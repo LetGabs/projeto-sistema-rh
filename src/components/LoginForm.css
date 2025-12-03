@@ -7,7 +7,6 @@
   justify-content: center;
 }
 
-
 .login-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -15,16 +14,18 @@
   height: 100vh;
   background-color: white;
   box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 0;
 }
-
 
 .login-form-section {
   padding: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
-
 
 .login-header {
   display: flex;
@@ -33,13 +34,11 @@
   margin-bottom: 24px;
 }
 
-
 .login-header h1 {
   font-size: 20px;
   font-weight: bold;
   color: #2c2c2c;
 }
-
 
 .login-title h2 {
   font-size: 32px;
@@ -48,13 +47,11 @@
   color: #2c2c2c;
 }
 
-
 .login-title p {
   font-size: 16px;
   color: #666;
   margin-bottom: 32px;
 }
-
 
 .login-form label {
   display: flex;
@@ -62,13 +59,11 @@
   margin-bottom: 20px;
 }
 
-
 .login-form span {
   font-weight: 500;
   margin-bottom: 8px;
   color: #333;
 }
-
 
 .login-form input {
   padding: 15px;
@@ -77,12 +72,10 @@
   font-size: 16px;
 }
 
-
 .password-wrapper {
   display: flex;
   align-items: center;
 }
-
 
 .password-wrapper input {
   width: 100%;
@@ -93,11 +86,9 @@
   transition: border-color 0.3s ease;
 }
 
-
 .eye-icon:hover {
   color: #555;
 }
-
 
 .login-form button {
   background-color: #7075ff;
@@ -115,20 +106,17 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-
-
-
 .login-form button:hover {
-  background-color: #5d63ff; /* cor ao passar o mouse */
+  background-color: #5d63ff;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(93, 99, 255, 0.3);
 }
-
 
 .login-form button:active {
   transform: translateY(0);
   box-shadow: none;
 }
+
 footer {
   margin-top: 40px;
   font-size: 14px;
@@ -136,33 +124,19 @@ footer {
   text-align: center;
 }
 
-
 .login-background {
   background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_UsmqRM9Zuq9Pp-mZfFq4lnKt0S7R9D3vR6bzOww5YoOkKOQ_P5so8DhWf2x2OdsAhJQC_s-AGjhxiAWJSvEIX-jwpdvM_GOxuOHZKs85sM9AgqqD6sIU5HppvSurWU4tn8s8dmTKotvfrBSIDC9QCtvLbCtgK6XyXd2QhY0h7cHompPfxzjYAuGYOXXhRd4c5aGhUg0dRymTvVCHyK1V8i4ngFHyyxgB_0cWeUbUq5uBdwESn5kmZ1TnTp4VnTCbYtNcluYmUZI');
   background-size: cover;
   background-position: center;
-}
-
-
-.login-container {
   position: relative;
-  z-index: 0;
-}
-
-
-
-.login-form-section {
-  position: relative;
-  z-index: 1;
-}
-
-
-.login-header {
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
+  justify-content: center;
 
+  /* ✅ REMOVE CURSOR DE TEXTO DO FUNDO */
+  cursor: default !important;
+  user-select: none !important;
+  caret-color: transparent !important;
+}
 
 .login-logo {
   height: 40px;
@@ -176,3 +150,31 @@ footer {
   font-size: 0.9rem;
 }
 
+.forgot-password {
+  cursor: pointer;
+}
+
+.create-account {
+  cursor: pointer !important;
+  text-decoration: underline;
+}
+
+
+.logo-azul {
+  position: absolute;
+  top: 100px;
+  width: 500px;
+  opacity: 0.95;
+
+  pointer-events: none !important;
+  user-select: none !important;
+  cursor: default !important;
+  display: block;
+}
+
+
+.login-background *,
+.logo-azul * {
+  caret-color: transparent !important;
+  cursor: default !important;
+}

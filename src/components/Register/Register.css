@@ -1,0 +1,127 @@
+.register-page {
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f6f8;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mantém exatamente o mesmo layout */
+.register-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+/* Mesmas configurações do Login */
+.register-form-section {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Cabeçalho igual */
+.register-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.register-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c2c2c;
+}
+
+/* Títulos */
+.register-title h2 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: #2c2c2c;
+}
+
+.register-title p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+/* Inputs */
+.register-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.register-form span {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.register-form input {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Botão igual ao login */
+.register-form button {
+  background-color: #7075ff;
+  color: #fff;
+  font-weight: 600;
+  padding: 18px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto 0 auto;
+  display: block;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.register-form button:hover {
+  background-color: #5d63ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(93, 99, 255, 0.3);
+}
+
+.register-form button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Mensagem de erro */
+.register-error {
+  color: #ff4d4f;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Fundo */
+.register-background {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_UsmqRM9Zuq9Pp-mZfFq4lnKt0S7R9D3vR6bzOww5YoOkKOQ_P5so8DhWf2x2OdsAhJQC_s-AGjhxiAWJSvEIX-jwpdvM_GOxuOHZKs85sM9AgqqD6sIU5HppvSurWU4tn8s8dmTKotvfrBSIDC9QCtvLbCtgK6XyXd2QhY0h7cHompPfxzjYAuGYOXXhRd4c5aGhUg0dRymTvVCHyK1V8i4ngFHyyxgB_0cWeUbUq5uBdwESn5kmZ1TnTp4VnTCbYtNcluYmUZI');
+  background-size: cover;
+  background-position: center;
+}
+
+.register-container {
+  position: relative;
+  z-index: 0;
+}
+
+.register-form-section {
+  position: relative;
+  z-index: 1;
+}

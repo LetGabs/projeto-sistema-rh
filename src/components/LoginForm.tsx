@@ -1,21 +1,55 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
+import logo from "../assets/rh_logo.png";
+
 
 const LoginForm: React.FC = () => {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        navigate("/colaboradores", { replace: true }); 
-    };
+        setLoading(true);
 
+        try {
+            const response = await fetch("http://localhost:3000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    senha: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message || "Usuário ou senha inválidos");
+                setLoading(false);
+                return;
+            }
+
+            localStorage.setItem("token", data.token);
+
+            navigate("/colaboradores", { replace: true });
+
+        } catch (error) {
+            console.error("Erro no login:", error);
+            alert("Erro ao conectar ao servidor.");
+        }
+
+        setLoading(false);
+    };
 
     return (
         <div className="login-container">
+
             <div className="login-form-section">
                 <div className="login-header">
                     <svg
@@ -72,13 +106,29 @@ const LoginForm: React.FC = () => {
                         Esqueceu sua senha?
                     </a>
 
-                    <button type="submit">Entrar</button>
+                    <button type="submit">
+                        {loading ? "Entrando..." : "Entrar"}
+                    </button>
+
+                    <a
+                        className="create-account"
+                        onClick={() => navigate("/register")}
+                    >
+                        Criar conta
+                    </a>
                 </form>
 
                 <footer>© 2024 Nome da Empresa. Todos os direitos reservados.</footer>
             </div>
 
-            <div className="login-background" />
+            <div className="login-background">
+                <img
+                    src={logo}
+                    alt="Logo"
+                    className="logo-azul"
+                />
+
+            </div>
         </div>
     );
 };
