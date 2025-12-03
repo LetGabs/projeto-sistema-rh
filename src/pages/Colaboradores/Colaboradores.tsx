@@ -2,60 +2,121 @@ import React, { useState } from "react";
 import "./Colaboradores.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ColaboradoresTable from "../../components/ColaboradoresTable/ColaboradoresTable";
-import type { Colaborador } from "../../components/ColaboradoresTable/ColaboradoresTable";
 import Pagination from "../../components/Pagination/Pagination";
 import Modal from "../../components/ModalColaborador/Modal";
+import colaboradoresRequests from "../../requests/colaboradores";
+import cargosRequests from "../../requests/cargos";
+import departamentosRequests from "../../requests/departamentos";
+import "./Colaboradores.css";
 
+export interface Colaborador {
+  id: number;
+  nome: string;
+  cargo: string;
+  cargo_id: number;
+  departamento: string;
+  departamento_id: number;
+  status: "Ativo" | "Inativo" | "Férias";
+}
 
-const colaboradoresIniciais: Colaborador[] = [
-  { id: 1, nome: "Ana Silva", cargo: "Designer de Produto", departamento: "Tecnologia", status: "Ativo" },
-  { id: 2, nome: "Bruno Costa", cargo: "Engenheiro de Software", departamento: "Tecnologia", status: "Ativo" },
-  { id: 3, nome: "Carla Dias", cargo: "Analista de RH", departamento: "Recursos Humanos", status: "Inativo" },
-  { id: 4, nome: "Daniel Martins", cargo: "Gerente de Marketing", departamento: "Marketing", status: "Ativo" },
-  { id: 5, nome: "Eduarda Lima", cargo: "Analista Financeiro", departamento: "Financeiro", status: "Férias" },
-];
+export interface Cargo {
+  id: number;
+  nome: string;
+}
 
-const Colaboradores: React.FC = () => {
+export interface Departamento {
+  id: number;
+  nome: string;
+}
 
+function Colaboradores() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [colaboradorEditando, setColaboradorEditando] = useState<Colaborador | null>(null);
+  const [colaboradores, setColaboradores] = useState<Colaborador[]>([]);
+  const [editando, setEditando] = useState<Colaborador | null>(null);
+  const [cargos, setCargos] = useState<Cargo[]>([]);
+  const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
 
-  const [colaboradores, setColaboradores] = useState<Colaborador[]>(colaboradoresIniciais);
+  async function carregarColaboradores() {
+    try {
+      const data = await colaboradoresRequests.getAll();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const formatado = data.map((c:any) => ({
+        id: c.id,
+        nome: c.nome,
+        cargo: c.cargo?.nome || "",
+        cargo_id: c.cargo_id,
+        departamento: c.departamento?.nome || "",
+        departamento_id: c.departamento_id,
+        status: c.status,
+      }));
+      setColaboradores(formatado);
+    } catch (error) {
+      console.error("Erro ao carregar colaboradores:", error);
+    }
+  }
 
-  const itemsPerPage = 3;
+  async function carregarCargosEDepartamentos() {
+    try {
+      const cargosData = await cargosRequests.getAll();
+      const departamentosData = await departamentosRequests.getAll();
+      setCargos(cargosData);
+      setDepartamentos(departamentosData);
+    } catch (error) {
+      console.error("Erro ao carregar cargos/departamentos:", error);
+    }
+  }
 
+  useEffect(() => {
+    carregarColaboradores();
+    carregarCargosEDepartamentos();
+  }, []);
+
+  const itemsPerPage = 5;
   const filtered = colaboradores.filter(
     (c) =>
       c.nome.toLowerCase().includes(search.toLowerCase()) ||
       c.id.toString().includes(search)
   );
-
-
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginated = filtered.slice(startIndex, startIndex + itemsPerPage);
 
-
-  const handleAddColaborador = (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    const novo: Colaborador = {
-      id: colaboradores.length + 1,
-      nome: data.get("nome") as string,
-      cargo: data.get("cargo") as string,
-      departamento: data.get("departamento") as string,
-      status: data.get("status") as "Ativo" | "Inativo" | "Férias",
+    const novoColaborador = {
+      nome: String(data.get("nome")),
+      cargo_id: Number(data.get("cargo_id")),
+      departamento_id: Number(data.get("departamento_id")),
+      status: String(data.get("status")),
     };
 
-    setColaboradores([...colaboradores, novo]);
-    setIsModalOpen(false);
-    form.reset();
-  };
+    try {
+      if (editando) {
+        await colaboradoresRequests.update(editando.id, novoColaborador);
+      } else {
+        await colaboradoresRequests.create(novoColaborador);
+      }
+
+      form.reset();
+      setIsModalOpen(false);
+      setEditando(null);
+      carregarColaboradores();
+    } catch (err) {
+      console.error("Erro ao salvar colaborador:", err);
+    }
+  }
+
+  async function deletarColaborador(id: number) {
+    if (confirm("Tem certeza que deseja excluir?")) {
+      await colaboradoresRequests.delete(id);
+      carregarColaboradores();
+    }
+  }
 
   const abrirEdicao = (colab: Colaborador) => {
     setColaboradorEditando(colab);
@@ -81,22 +142,25 @@ const Colaboradores: React.FC = () => {
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
-
       <main className="main-content">
         <div className="gestao-card">
-          {/* Cabeçalho */}
           <div className="page-header">
             <div className="page-title">
               <h1>Gestão de Colaboradores</h1>
               <p>Adicione, edite e visualize os registros dos colaboradores.</p>
             </div>
-            <button className="add-button" onClick={() => setIsModalOpen(true)}>
+            <button
+              className="add-button"
+              onClick={() => {
+                setEditando(null);
+                setIsModalOpen(true);
+              }}
+            >
               <span className="material-symbols-outlined">add</span>
               <span>Adicionar Colaborador</span>
             </button>
           </div>
 
-          {/* Barra de pesquisa */}
           <div className="search-bar">
             <span className="material-symbols-outlined search-icon">search</span>
             <input
@@ -107,26 +171,15 @@ const Colaboradores: React.FC = () => {
             />
           </div>
 
-          {/* Filtros (ainda estáticos) */}
-          <div className="filters">
-            <button className="filter-button">
-              <p>Departamento</p>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-            <button className="filter-button">
-              <p>Status</p>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-          </div>
-
-          {/* Tabela de colaboradores */}
           <ColaboradoresTable
             colaboradores={paginated}
-            onAtualizar={abrirEdicao}
-            onRemover={removerColaborador}
+            onEdit={(c) => {
+              setEditando(colaboradores.find((col) => col.id === c.id) || null);
+              setIsModalOpen(true);
+            }}
+            onDelete={deletarColaborador}
           />
 
-          {/* Paginação */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -134,90 +187,81 @@ const Colaboradores: React.FC = () => {
           />
         </div>
 
-        {/* Modal de cadastro */}
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <h2>Adicionar Colaborador</h2>
-          <form className="form-colaborador" onSubmit={handleAddColaborador}>
+          <h2>{editando ? "Editar Colaborador" : "Adicionar Colaborador"}</h2>
+          <form className="form-colaborador" onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Nome</label>
-              <input type="text" name="nome" required />
+              <input
+                type="text"
+                name="nome"
+                required
+                defaultValue={editando?.nome || ""}
+              />
             </div>
+
             <div className="form-group">
               <label>Cargo</label>
-              <input type="text" name="cargo" required />
-            </div>
-            <div className="form-group">
-              <label>Departamento</label>
-              <input type="text" name="departamento" required />
-            </div>
-            <div className="form-group">
-              <label>Status</label>
-              <select name="status" required>
-                <option value="Ativo">Ativo</option>
-                <option value="Inativo">Inativo</option>
-                <option value="Férias">Férias</option>
+              <select
+                name="cargo_id"
+                required
+                defaultValue={editando?.cargo_id || ""}
+              >
+                <option value="">Selecione...</option>
+                <option value="Designer de Produto">Designer de Produto</option>
+                <option value="Engenheiro de Software">Engenheiro de Software</option>
+                <option value="Aanlista de RH">Aanlista de RH</option>
+                
+            
+                {cargos.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.nome}
+                  </option>
+                ))}
               </select>
             </div>
-            <button type="submit" className="add-button">Salvar</button>
-          </form>
-        </Modal>
 
-        {/* Modal de edição */}
-        <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <h2>Editar Colaborador</h2>
-          <form className="form-colaborador" onSubmit={salvarEdicao}>
-            <div className="form-group">
-              <label>Nome</label>
-              <input
-                type="text"
-                value={colaboradorEditando?.nome || ""}
-                onChange={(e) =>
-                  setColaboradorEditando({ ...colaboradorEditando!, nome: e.target.value })
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Cargo</label>
-              <input
-                type="text"
-                value={colaboradorEditando?.cargo || ""}
-                onChange={(e) =>
-                  setColaboradorEditando({ ...colaboradorEditando!, cargo: e.target.value })
-                }
-              />
-            </div>
             <div className="form-group">
               <label>Departamento</label>
-              <input
-                type="text"
-                value={colaboradorEditando?.departamento || ""}
-                onChange={(e) =>
-                  setColaboradorEditando({ ...colaboradorEditando!, departamento: e.target.value })
-                }
-              />
+              <select
+                name="departamento_id"
+                required
+                defaultValue={editando?.departamento_id || ""}
+              >
+                <option value="">Selecione...</option>
+                <option value="1">Tecnologia</option>
+                <option value="2">Recursos Humanos</option>
+                {departamentos.map((d) => (
+                  <option key={d.id} value={d.id
+
+                  }>
+                    {d.nome}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="form-group">
               <label>Status</label>
               <select
-                value={colaboradorEditando?.status || "Ativo"}
-                onChange={(e) =>
-                  setColaboradorEditando({
-                    ...colaboradorEditando!,
-                    status: e.target.value as Colaborador["status"],
-                  })
-                }
+                name="status"
+                required
+                defaultValue={editando?.status || "Ativo"}
               >
                 <option value="Ativo">Ativo</option>
                 <option value="Inativo">Inativo</option>
                 <option value="Férias">Férias</option>
               </select>
             </div>
-            <button type="submit" className="add-button">Salvar</button>
+
+            <button type="submit" className="btn-salvar">
+              Salvar
+            </button>
           </form>
         </Modal>
       </main>
     </div>
   );
-};
+}
 
 export default Colaboradores;

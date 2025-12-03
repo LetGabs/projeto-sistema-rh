@@ -1,9 +1,10 @@
 import React from "react";
 import "./ColaboradoresTable.css";
-
 export interface Colaborador {
   id: number;
   nome: string;
+  cargo_id: number;
+  departamento_id: number;
   cargo: string;
   departamento: string;
   status: "Ativo" | "Inativo" | "Férias";
@@ -11,12 +12,16 @@ export interface Colaborador {
 
 interface Props {
   colaboradores: Colaborador[];
+  onEdit: (c: Colaborador) => void;
+  onDelete: (id: number) => void;
   onAtualizar: (colaborador: Colaborador) => void;
   onRemover: (id: number) => void;
 }
 
 const ColaboradoresTable: React.FC<Props> = ({
   colaboradores,
+  onEdit,
+  onDelete,
   onAtualizar,
   onRemover,
 }) => {
@@ -32,18 +37,29 @@ const ColaboradoresTable: React.FC<Props> = ({
             <th>Ações</th>
           </tr>
         </thead>
+
         <tbody>
           {colaboradores.map((colab) => (
             <tr key={colab.id}>
               <td>{colab.nome}</td>
-              <td>{colab.cargo}</td>
-              <td>{colab.departamento}</td>
+              <td>{colab.cargo_id }</td>
+              <td>{colab.departamento_id}</td>
               <td>
                 <span className={`status ${colab.status.toLowerCase()}`}>
                   {colab.status}
                 </span>
               </td>
               <td>
+                <button onClick={() => onEdit(colab)} className="action-button">
+                  editar
+                </button>
+
+                <button
+                  onClick={() => onDelete(colab.id)}
+                  className="action-button delete"
+                >
+                  excluir 
+                </button>
                 <div className="action-buttons">
                   <button
                     className="btn-editar"
