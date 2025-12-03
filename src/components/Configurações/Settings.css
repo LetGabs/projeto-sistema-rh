@@ -1,0 +1,29 @@
+.profile-photo-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-photo-preview img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-btn {
+  background: #4a90e2;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save-photo-btn {
+  background: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+}
