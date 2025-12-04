@@ -1,24 +1,44 @@
+/* --- CONTAINER PRINCIPAL DA FOTO --- */
 .profile-photo-item {
   display: flex;
-  align-items: center;
+  flex-direction: column; 
+  align-items: center;    
+  justify-content: center;
   gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  border: none !important;
 }
 
+/* --- ÁREA DA PRÉ-VISUALIZAÇÃO --- */
+.profile-photo-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none !important;
+}
+
+/* --- FOTO (RETANGULAR, CENTRALIZADA) --- */
 .profile-photo-preview img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 300px;
+  height: 300px;
+  object-fit: contain; /* mostra foto inteira sem cortar */
+  border-radius: 8px;  /* cantos levemente arredondados */
+  border: none !important;
 }
 
+/* --- BOTÃO ALTERAR FOTO --- */
 .upload-btn {
   background: #4a90e2;
   color: white;
   padding: 10px 15px;
   border-radius: 8px;
   cursor: pointer;
+  border: none;
+  font-size: 1rem;
 }
 
+/* --- BOTÃO SALVAR FOTO (CASO EXISTIR) --- */
 .save-photo-btn {
   background: #28a745;
   color: white;
@@ -26,4 +46,27 @@
   border-radius: 8px;
   margin-left: 10px;
   cursor: pointer;
+  border: none;
+}
+
+/* --- REMOVE QUALQUER HR DE SEÇÕES --- */
+.settings-section hr {
+  display: none !important;
+}
+
+/* --- GARANTE QUE NENHUM ELEMENTO INTERNO TENHA BORDA --- */
+.profile-photo-item > *,
+.profile-photo-item div,
+.profile-photo-preview,
+.profile-photo-preview *,
+.profile-photo-item * {
+  border: none !important;
+}
+
+/* --- REMOVE QUALQUER DIV QUE TENHA VIRADO A LINHA PRETA --- */
+.profile-photo-item div:empty {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: none !important;
 }

@@ -27,7 +27,7 @@ const SettingsPage: React.FC = () => {
     formData.append("foto", file);
 
     try {
-      const response = await fetch("http://localhost:3000/config/upload-foto", {
+      const response = await fetch("http://localhost:3000/api/configuracoes/upload-foto", {
         method: "POST",
         body: formData,
       });
@@ -35,9 +35,13 @@ const SettingsPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // 👉 Salvar URL no localStorage para Sidebar usar
         localStorage.setItem("foto_perfil", data.foto_url);
+
+
+        window.dispatchEvent(new Event("storage"));
+
         alert("Foto atualizada com sucesso!");
+
       } else {
         alert("Erro ao salvar foto: " + data.error);
       }
@@ -48,6 +52,7 @@ const SettingsPage: React.FC = () => {
       console.error(error);
     }
   };
+
 
   return (
     <PageLayout sidebar={<SettingsSidebar />}>

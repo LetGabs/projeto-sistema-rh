@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import api from "../../services/api"; 
+import api from "../../services/api";
 import "./Sidebar.css";
 import AjudaModal from "./AjudaModal";
 import SairModal from "./SairModal";
@@ -24,21 +24,21 @@ const Sidebar: React.FC<Props> = ({ onAjudaClick }) => {
     navigate("/");
   };
 
-  // 👉 Buscar foto do backend
   useEffect(() => {
-    const fetchFoto = async () => {
-      try {
-        const response = await api.get("/config/foto-perfil");
-        if (response.data.foto_url) {
-          setFotoPerfil(response.data.foto_url);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar foto de perfil:", error);
-      }
+    const loadPhoto = () => {
+      const foto = localStorage.getItem("foto_perfil");
+      if (foto) setFotoPerfil(foto);
     };
 
-    fetchFoto();
+    loadPhoto(); // carrega inicial
+
+    window.addEventListener("storage", loadPhoto);
+
+    return () => {
+      window.removeEventListener("storage", loadPhoto);
+    };
   }, []);
+
 
   return (
     <>

@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Colaboradores.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ColaboradoresTable from "../../components/ColaboradoresTable/ColaboradoresTable";
 import Pagination from "../../components/Pagination/Pagination";
 import Modal from "../../components/ModalColaborador/Modal";
 import colaboradoresRequests from "../../requests/colaboradores";
-import cargosRequests from "../../requests/cargos";
-import departamentosRequests from "../../requests/departamentos";
-import "./Colaboradores.css";
 
 export interface Colaborador {
   id: number;
@@ -19,30 +16,18 @@ export interface Colaborador {
   status: "Ativo" | "Inativo" | "Férias";
 }
 
-export interface Cargo {
-  id: number;
-  nome: string;
-}
-
-export interface Departamento {
-  id: number;
-  nome: string;
-}
-
 function Colaboradores() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [colaboradores, setColaboradores] = useState<Colaborador[]>([]);
   const [editando, setEditando] = useState<Colaborador | null>(null);
-  const [cargos, setCargos] = useState<Cargo[]>([]);
-  const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
 
   async function carregarColaboradores() {
     try {
       const data = await colaboradoresRequests.getAll();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const formatado = data.map((c:any) => ({
+
+      const formatado = data.map((c: any) => ({
         id: c.id,
         nome: c.nome,
         cargo: c.cargo?.nome || "",
@@ -51,26 +36,15 @@ function Colaboradores() {
         departamento_id: c.departamento_id,
         status: c.status,
       }));
+
       setColaboradores(formatado);
     } catch (error) {
       console.error("Erro ao carregar colaboradores:", error);
     }
   }
 
-  async function carregarCargosEDepartamentos() {
-    try {
-      const cargosData = await cargosRequests.getAll();
-      const departamentosData = await departamentosRequests.getAll();
-      setCargos(cargosData);
-      setDepartamentos(departamentosData);
-    } catch (error) {
-      console.error("Erro ao carregar cargos/departamentos:", error);
-    }
-  }
-
   useEffect(() => {
     carregarColaboradores();
-    carregarCargosEDepartamentos();
   }, []);
 
   const itemsPerPage = 5;
@@ -118,27 +92,6 @@ function Colaboradores() {
     }
   }
 
-  const abrirEdicao = (colab: Colaborador) => {
-    setColaboradorEditando(colab);
-    setIsEditModalOpen(true);
-  };
-
-
-  const salvarEdicao = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!colaboradorEditando) return;
-
-    setColaboradores((prev) =>
-      prev.map((c) => (c.id === colaboradorEditando.id ? colaboradorEditando : c))
-    );
-    setIsEditModalOpen(false);
-  };
-
-
-  const removerColaborador = (id: number) => {
-    setColaboradores((prev) => prev.filter((c) => c.id !== id));
-  };
-
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
@@ -149,6 +102,7 @@ function Colaboradores() {
               <h1>Gestão de Colaboradores</h1>
               <p>Adicione, edite e visualize os registros dos colaboradores.</p>
             </div>
+
             <button
               className="add-button"
               onClick={() => {
@@ -189,6 +143,7 @@ function Colaboradores() {
 
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <h2>{editando ? "Editar Colaborador" : "Adicionar Colaborador"}</h2>
+
           <form className="form-colaborador" onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Nome</label>
@@ -208,16 +163,9 @@ function Colaboradores() {
                 defaultValue={editando?.cargo_id || ""}
               >
                 <option value="">Selecione...</option>
-                <option value="Designer de Produto">Designer de Produto</option>
-                <option value="Engenheiro de Software">Engenheiro de Software</option>
-                <option value="Aanlista de RH">Aanlista de RH</option>
-                
-            
-                {cargos.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.nome}
-                  </option>
-                ))}
+                <option value="1">Designer de Produto</option>
+                <option value="2">Engenheiro de Software</option>
+                <option value="3">Analista de RH</option>
               </select>
             </div>
 
@@ -231,13 +179,6 @@ function Colaboradores() {
                 <option value="">Selecione...</option>
                 <option value="1">Tecnologia</option>
                 <option value="2">Recursos Humanos</option>
-                {departamentos.map((d) => (
-                  <option key={d.id} value={d.id
-
-                  }>
-                    {d.nome}
-                  </option>
-                ))}
               </select>
             </div>
 

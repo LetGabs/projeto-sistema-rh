@@ -1,5 +1,6 @@
 import React from "react";
 import "./ColaboradoresTable.css";
+
 export interface Colaborador {
   id: number;
   nome: string;
@@ -14,16 +15,12 @@ interface Props {
   colaboradores: Colaborador[];
   onEdit: (c: Colaborador) => void;
   onDelete: (id: number) => void;
-  onAtualizar: (colaborador: Colaborador) => void;
-  onRemover: (id: number) => void;
 }
 
 const ColaboradoresTable: React.FC<Props> = ({
   colaboradores,
   onEdit,
   onDelete,
-  onAtualizar,
-  onRemover,
 }) => {
   return (
     <div className="table-container">
@@ -42,38 +39,29 @@ const ColaboradoresTable: React.FC<Props> = ({
           {colaboradores.map((colab) => (
             <tr key={colab.id}>
               <td>{colab.nome}</td>
-              <td>{colab.cargo_id }</td>
+              <td>{colab.cargo_id}</td>
               <td>{colab.departamento_id}</td>
+
               <td>
                 <span className={`status ${colab.status.toLowerCase()}`}>
                   {colab.status}
                 </span>
               </td>
+
               <td>
-                <button onClick={() => onEdit(colab)} className="action-button">
-                  editar
+                <button
+                  onClick={() => onEdit(colab)}
+                  className="action-button"
+                >
+                  Editar
                 </button>
 
                 <button
                   onClick={() => onDelete(colab.id)}
                   className="action-button delete"
                 >
-                  excluir 
+                  Excluir
                 </button>
-                <div className="action-buttons">
-                  <button
-                    className="btn-editar"
-                    onClick={() => onAtualizar(colab)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="btn-remover"
-                    onClick={() => onRemover(colab.id)}
-                  >
-                    Remover
-                  </button>
-                </div>
               </td>
             </tr>
           ))}
