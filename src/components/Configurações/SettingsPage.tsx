@@ -35,7 +35,6 @@ const SettingsPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // 👉 Salvar URL no localStorage para Sidebar usar
         localStorage.setItem("foto_perfil", data.foto_url);
         alert("Foto atualizada com sucesso!");
       } else {
